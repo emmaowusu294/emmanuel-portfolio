@@ -43,7 +43,11 @@ export default function Hero() {
       >
         <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gray-800 border-4 border-white/10 overflow-hidden">
           {/* Uncomment this when you add your image to the public folder */}
-          {/* <img src="/your-image.jpg" alt="Emmanuel" className="w-full h-full object-cover" /> */}
+          <img
+            src="/emma1.JPG"
+            alt="Emmanuel"
+            className="w-full h-full object-cover"
+          />
         </div>
       </motion.div>
     </section>
