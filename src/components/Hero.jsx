@@ -2,7 +2,10 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between min-h-[80vh]">
+    <section
+      id="hero"
+      className="max-w-6xl mx-auto px-6 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between min-h-[80vh]"
+    >
       {/* Text Content */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}

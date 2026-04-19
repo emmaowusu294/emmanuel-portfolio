@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import {
   FaLinkedin,
   FaWhatsapp,
@@ -14,29 +15,37 @@ export default function Contact() {
   // Web3Forms Submission Logic
   const onSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
 
-    // REPLACE THIS WITH YOUR ACTUAL KEY FROM WEB3FORMS
+    // Optional: Show a loading toast while waiting for the API
+    const toastId = toast.loading("Sending message...");
+
+    const formData = new FormData(event.target);
     formData.append("access_key", "f4ccc161-74a1-4045-b59b-9d06219fedd1");
 
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
-    const res = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: json,
-    }).then((res) => res.json());
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: json,
+      }).then((res) => res.json());
 
-    if (!res.success) {
-      alert("Couldn't send message. Try Again");
-      event.target.reset(); // Clears the form
-    } else {
-      alert("Message sent successfully! I'll get back to you soon.");
-      event.target.reset(); // Clears the form
+      if (res.success) {
+        // 2. Replace alert with toast.success, and dismiss the loading toast
+        toast.success("Message sent successfully! I'll get back to you soon.", {
+          id: toastId,
+        });
+        event.target.reset();
+      } else {
+        toast.error("Couldn't send message. Try again.", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Network error. Please try again.", { id: toastId });
     }
   };
 
@@ -74,7 +83,10 @@ export default function Contact() {
   ];
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-20 border-t border-white/10">
+    <section
+      id="contact"
+      className="max-w-6xl mx-auto px-6 py-20 border-t border-white/10"
+    >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
