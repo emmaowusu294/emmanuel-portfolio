@@ -3,7 +3,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-background border-t border-white/5 py-8 mt-12">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
         <p className="text-gray-500 text-sm">© {currentYear} Emmanuel Owusu.</p>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

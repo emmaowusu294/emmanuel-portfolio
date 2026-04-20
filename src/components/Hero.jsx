@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="max-w-6xl mx-auto px-6 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between min-h-[80vh]"
+      className="max-w-6xl mx-auto px-6 md:px-12 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between min-h-[80vh]"
     >
       {/* Text Content */}
       <motion.div
