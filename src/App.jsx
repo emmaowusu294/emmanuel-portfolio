@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 export default function App() {
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/20 
+      className="min-h-screen bg-gradient-to-br from-background via-background to-primary/100 
       text-gray-300 font-body selection:bg-accent selection:text-black"
     >
       <Toaster
