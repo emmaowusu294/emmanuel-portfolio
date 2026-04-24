@@ -97,7 +97,7 @@ export default function Contact() {
           Let's Connect
         </h2>
         <p className="text-gray-400 mt-4">
-          Open for opportunities or just a chat about code.
+          Open for work or just a chat about code.
         </p>
       </motion.div>
 

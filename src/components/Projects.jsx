@@ -1,22 +1,33 @@
 import { motion } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"; // <-- Don't forget these imports!
 
-// Placeholder data - we will swap this with your actual work
 const projects = [
   {
     id: 1,
-    title: "E-Commerce API",
-    stack: "ASP.NET Core • C#",
-    desc: "A robust backend API handling thousands of requests.",
-    img: "/placeholder1.png",
-    link: "#",
+    title: "FinanceHub Landing Page",
+    stack: "HTML5 • CSS3 • Vanilla JS",
+    desc: "A high-conversion, responsive landing page for a fintech mobile application. Engineered without frameworks to demonstrate strong foundational UI/UX skills and semantic web design.",
+    img: "/FinanceHubb.jpg",
+    liveLink: "https://finance-hub-project.vercel.app/",
+    githubLink: "https://github.com/emmaowusu294/FinanceHub-Project",
   },
   {
     id: 2,
-    title: "Task Manager App",
-    stack: "React • Node/Express",
-    desc: "A full-stack productivity tool with real-time updates.",
-    img: "/placeholder2.png",
-    link: "#",
+    title: "Paymii Crypto App",
+    stack: "React Native • Expo • REST APIs",
+    desc: "Engineered the mobile frontend for a cryptocurrency platform. Built a secure, user-friendly interface with real-time market data visualizations and seamless transfer flows, consuming a Spring Boot backend.",
+    img: "/Paymii.jpg",
+    liveLink: "#",
+    githubLink: "https://github.com/paymii90/Paymii/tree/main/frontend",
+  },
+  {
+    id: 3,
+    title: "LibriVerse Digital Library",
+    stack: "ASP.NET Core MVC • C# • SQL Server",
+    desc: "Developed a full-stack digital library management system featuring role-based authorization (Identity), a secure admin dashboard for CRUD operations, and a patron portal for digital checkouts.",
+    img: "/libriverse.png",
+    liveLink: "#",
+    githubLink: "https://github.com/emmaowusu294/LibriVerse---BookLibraryApp",
   },
 ];
 
@@ -35,15 +46,17 @@ export default function Projects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            // THIS IS THE MAGIC: Alternates layout based on even/odd index
             className={`flex flex-col gap-8 items-center md:gap-16 ${
               index % 2 !== 0 ? "md:flex-row-reverse" : "md:flex-row"
             }`}
           >
-            {/* Project Image */}
-            <div className="w-full md:w-1/2 h-64 md:h-96 bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-white/5">
-              {/* Uncomment when you have screenshots */}
-              {/* <img src={project.img} alt={project.title} className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" /> */}
+            {/* Project Image - Kept your awesome scale hover effect! */}
+            <div className="w-full md:w-1/2 h-64 md:h-96 bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-white/5 group">
+              <img
+                src={project.img}
+                alt={project.title}
+                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out"
+              />
             </div>
 
             {/* Project Info */}
@@ -58,13 +71,36 @@ export default function Projects() {
                 {project.desc}
               </p>
 
-              <motion.a
-                whileHover={{ x: 5 }}
-                href={project.link}
-                className="inline-block mt-4 text-white font-bold border-b-2 border-blue-500 pb-1"
-              >
-                View on GitHub →
-              </motion.a>
+              {/* Dynamic Action Buttons */}
+              <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t border-white/10">
+                {/* Only shows if liveLink exists AND isn't just a hashtag */}
+                {project.liveLink && project.liveLink !== "#" && (
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+                  >
+                    <FaExternalLinkAlt size={14} /> Live Demo
+                  </motion.a>
+                )}
+
+                {/* Always shows if a GitHub link exists */}
+                {project.githubLink && project.githubLink !== "#" && (
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors border border-white/10"
+                  >
+                    <FaGithub size={16} /> GitHub
+                  </motion.a>
+                )}
+              </div>
             </div>
           </motion.div>
         ))}
