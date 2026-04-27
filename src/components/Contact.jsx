@@ -138,7 +138,7 @@ export default function Contact() {
                 required
                 rows="4"
                 className="w-full bg-gray-900 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                placeholder="Hey Emmanuel, I loved your portfolio..."
+                placeholder="Hey Emmanuel, ..."
               ></textarea>
             </div>
 
