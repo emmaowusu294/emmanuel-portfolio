@@ -35,7 +35,7 @@ export default function Projects() {
   return (
     <section id="projects" className="max-w-6xl mx-auto px-6 md:px-12 py-20">
       <h2 className="text-4xl font-heading font-bold text-white mb-16 text-center">
-        Selected Work
+        Featured Projects
       </h2>
 
       <div className="space-y-24">
@@ -50,7 +50,7 @@ export default function Projects() {
               index % 2 !== 0 ? "md:flex-row-reverse" : "md:flex-row"
             }`}
           >
-            {/* Project Image - Kept your awesome scale hover effect! */}
+            {/* Project Image */}
             <div className="w-full md:w-1/2 h-64 md:h-96 bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-white/5 group">
               <img
                 src={project.img}
@@ -97,7 +97,7 @@ export default function Projects() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors border border-white/10"
                   >
-                    <FaGithub size={16} /> GitHub
+                    <FaGithub size={16} /> View On GitHub
                   </motion.a>
                 )}
               </div>
