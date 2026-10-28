@@ -2,15 +2,12 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-background border-t border-white/5 py-8 mt-12">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
-        <p className="text-gray-500 text-sm">© {currentYear} Emmanuel Owusu.</p>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="mt-4 md:mt-0 text-blue-500 hover:text-white transition-colors text-sm font-bold uppercase tracking-widest"
-        >
-          Back to Top ↑
-        </button>
+    <footer className="border-t border-line">
+      <div className="page flex flex-col gap-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <p>© {currentYear} Emmanuel Owusu.</p>
+        <a href="#top" className="text-link self-start sm:self-auto">
+          Back to top
+        </a>
       </div>
     </footer>
   );

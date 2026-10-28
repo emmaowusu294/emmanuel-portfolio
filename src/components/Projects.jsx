@@ -1,108 +1,194 @@
-import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"; // <-- Don't forget these imports!
+import { FiExternalLink, FiGithub } from "react-icons/fi";
 
 const projects = [
   {
+    // Details verified in the USI.Atelier repository (frontend/package.json,
+    // CLAUDE.md, frontend/src/lib/site.ts). The repository is private, so no source link.
+    id: 4,
+    title: "USI Atelier",
+    kind: "Full-stack e-commerce platform",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "ASP.NET Core",
+      "EF Core",
+      "PostgreSQL",
+      "Paystack",
+      "Cloudinary",
+    ],
+    desc: "An online store and admin dashboard for USI Atelier, a Ghanaian ready-to-wear fashion brand. Shoppers browse the catalogue and check out without an account, paying through Paystack; an order is only marked paid after the backend verifies the payment. Administrators manage products, images, sizes and stock, featured pieces, and orders.",
+    img: "/usi-atelier.png",
+    imgWidth: 1361,
+    imgHeight: 687,
+    imgFit: "contain",
+    alt: "USI Atelier storefront homepage with the brand logo over a model in a patterned shirt, beside the line “Elegance, for you.”",
+    liveLink: "https://usi-atelier.shop",
+    githubLink: null,
+  },
+  {
     id: 1,
     title: "FinanceHub Landing Page",
-    stack: "HTML5 • CSS3 • Vanilla JS",
+    kind: "Responsive landing page",
+    stack: ["HTML5", "CSS3", "Vanilla JS"],
     desc: "A high-conversion, responsive landing page for a fintech mobile application. Engineered without frameworks to demonstrate strong foundational UI/UX skills and semantic web design.",
-    img: "/FinanceHubb.jpg",
+    img: "/financehub-1600.webp",
+    imgWidth: 1600,
+    imgHeight: 1067,
+    imgFit: "cover",
+    alt: "FinanceHub landing page shown on a laptop and a phone",
     liveLink: "https://finance-hub-project.vercel.app/",
     githubLink: "https://github.com/emmaowusu294/FinanceHub-Project",
   },
   {
     id: 2,
     title: "Paymii Crypto App",
-    stack: "React Native • Expo • REST APIs",
+    kind: "Mobile app frontend, team project",
+    stack: ["React Native", "Expo", "REST APIs"],
     desc: "Engineered the mobile frontend for a cryptocurrency platform. Built a secure, user-friendly interface with real-time market data visualizations and seamless transfer flows, consuming a Spring Boot backend.",
     img: "/Paymii.jpg",
+    imgWidth: 1920,
+    imgHeight: 1080,
+    imgFit: "cover",
+    alt: "Three Paymii app screens: receiving bitcoin, the welcome screen, and a bitcoin price chart",
     liveLink: "#",
     githubLink: "https://github.com/paymii90/Paymii/tree/main/frontend",
   },
   {
     id: 3,
     title: "LibriVerse Digital Library",
-    stack: "ASP.NET Core MVC • C# • SQL Server",
+    kind: "Full-stack web application",
+    stack: ["ASP.NET Core MVC", "C#", "SQL Server"],
     desc: "Developed a full-stack digital library management system featuring role-based authorization (Identity), a secure admin dashboard for CRUD operations, and a patron portal for digital checkouts.",
     img: "/libriverse.png",
+    imgWidth: 1441,
+    imgHeight: 828,
+    imgFit: "contain",
+    alt: "LibriVerse book detail page for Oliver Twist shown on a laptop",
     liveLink: "#",
     githubLink: "https://github.com/emmaowusu294/LibriVerse---BookLibraryApp",
   },
 ];
 
+const hasLink = (link) => link && link !== "#";
+
 export default function Projects() {
   return (
-    <section id="projects" className="max-w-6xl mx-auto px-6 md:px-12 py-20">
-      <h2 className="text-4xl font-heading font-bold text-white mb-16 text-center">
-        Featured Projects
-      </h2>
+    <section
+      id="projects"
+      aria-labelledby="projects-title"
+      className="page py-20 md:py-28"
+    >
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <h2 id="projects-title" className="section-title">
+          Selected work
+        </h2>
+        <p className="max-w-[28em] text-muted">
+          Web, mobile, and full-stack work.
+        </p>
+      </div>
 
-      <div className="space-y-24">
-        {projects.map((project, index) => (
-          <motion.div
+      <div className="mt-14 md:mt-20">
+        {projects.map((project) => (
+          <article
             key={project.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className={`flex flex-col gap-8 items-center md:gap-16 ${
-              index % 2 !== 0 ? "md:flex-row-reverse" : "md:flex-row"
-            }`}
+            aria-labelledby={`project-${project.id}`}
+            data-reveal="row"
+            className="reveal-row grid gap-8 border-t border-line py-12 md:grid-cols-12 md:gap-x-8 md:py-16 lg:gap-x-12"
           >
-            {/* Project Image */}
-            <div className="w-full md:w-1/2 h-64 md:h-96 bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-white/5 group">
-              <img
-                src={project.img}
-                alt={project.title}
-                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out"
-              />
-            </div>
-
-            {/* Project Info */}
-            <div className="w-full md:w-1/2 space-y-4">
-              <p className="text-blue-400 font-bold tracking-widest text-sm uppercase">
-                {project.stack}
-              </p>
-              <h3 className="text-3xl font-heading font-bold text-white">
-                {project.title}
-              </h3>
-              <p className="text-gray-400 text-lg leading-relaxed">
-                {project.desc}
-              </p>
-
-              {/* Dynamic Action Buttons */}
-              <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t border-white/10">
-                {/* Only shows if liveLink exists AND isn't just a hashtag */}
-                {project.liveLink && project.liveLink !== "#" && (
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
-                  >
-                    <FaExternalLinkAlt size={14} /> Live Demo
-                  </motion.a>
-                )}
-
-                {/* Always shows if a GitHub link exists */}
-                {project.githubLink && project.githubLink !== "#" && (
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors border border-white/10"
-                  >
-                    <FaGithub size={16} /> View On GitHub
-                  </motion.a>
-                )}
+            <div
+              data-reveal-item
+              style={{ "--i": 0 }}
+              className="md:col-span-12 lg:col-span-7"
+            >
+              <div className="aspect-[16/10] overflow-hidden rounded-[3px] border border-line bg-surface">
+                <img
+                  src={project.img}
+                  alt={project.alt}
+                  width={project.imgWidth}
+                  height={project.imgHeight}
+                  loading="lazy"
+                  decoding="async"
+                  className={`h-full w-full ${
+                    project.imgFit === "contain"
+                      ? "object-contain p-4 sm:p-8"
+                      : "object-cover"
+                  }`}
+                />
               </div>
             </div>
-          </motion.div>
+
+            {/* Tablet: description and details side by side under the image.
+                Desktop: one column beside the image, details pinned to the bottom. */}
+            <div className="grid gap-8 md:col-span-12 md:grid-cols-12 lg:col-span-5 lg:flex lg:flex-col lg:justify-between lg:gap-10">
+              <div
+                data-reveal-item
+                style={{ "--i": 1 }}
+                className="md:col-span-7"
+              >
+                <p className="text-muted">{project.kind}</p>
+                <h3
+                  id={`project-${project.id}`}
+                  className="mt-2 font-heading text-3xl font-bold leading-tight tracking-[-0.01em] text-paper md:text-4xl"
+                >
+                  {project.title}
+                </h3>
+                <p className="mt-5 max-w-[36em] leading-relaxed text-muted">
+                  {project.desc}
+                </p>
+              </div>
+
+              <div
+                data-reveal-item
+                style={{ "--i": 2 }}
+                className="md:col-span-5"
+              >
+                <h4 className="text-sm font-medium text-paper">Built with</h4>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {project.stack.map((tech) => (
+                    <li
+                      key={tech}
+                      className="rounded-[3px] border border-line px-3 py-1 text-sm text-muted"
+                    >
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                  {hasLink(project.liveLink) && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-signal"
+                    >
+                      <FiExternalLink aria-hidden="true" />
+                      Visit live site
+                      <span className="sr-only">
+                        for {project.title} (opens in a new tab)
+                      </span>
+                    </a>
+                  )}
+                  {hasLink(project.githubLink) && (
+                    <a
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-link"
+                    >
+                      <FiGithub aria-hidden="true" />
+                      View source on GitHub
+                      <span className="sr-only">
+                        for {project.title} (opens in a new tab)
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </section>

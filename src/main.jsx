@@ -5,12 +5,15 @@ import ReactGA from "react-ga4";
 import "./index.css";
 import App from "./App.jsx";
 
-ReactGA.initialize("G-T5ZPVHPDJW");
+// Analytics runs only in production builds, so local development sends no events
+if (import.meta.env.PROD) {
+  ReactGA.initialize("G-T5ZPVHPDJW");
 
-ReactGA.send({
-  hitType: "pageview",
-  page: window.location.pathname + window.location.search,
-});
+  ReactGA.send({
+    hitType: "pageview",
+    page: window.location.pathname + window.location.search,
+  });
+}
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

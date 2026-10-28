@@ -1,61 +1,77 @@
-import { motion } from "framer-motion";
+import { FiDownload, FiMail } from "react-icons/fi";
+import { EMAIL } from "../data/profile";
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="max-w-6xl mx-auto px-6 md:px-12 py-24 md:py-32 flex flex-col md:flex-row items-center justify-between min-h-[80vh]"
+      aria-labelledby="hero-title"
+      className="page pb-20 pt-[calc(var(--nav-height)+3.5rem)] md:pt-[calc(var(--nav-height)+5rem)] lg:pb-28"
     >
-      {/* Text Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="md:w-1/2 space-y-6"
+      <p className="reveal text-muted">
+        <span className="font-medium text-paper">Emmanuel Owusu</span>,
+        software engineer
+      </p>
+
+      <h1
+        id="hero-title"
+        className="reveal mt-6 max-w-[11.5em] text-balance font-heading font-extrabold leading-[0.98] tracking-[-0.03em] text-paper"
+        style={{
+          "--delay": "60ms",
+          fontSize: "clamp(2.25rem, 1rem + 6.4vw, 6.25rem)",
+        }}
       >
-        <h1 className="text-5xl md:text-7xl font-heading font-extrabold text-white leading-tight">
-          Hi, I'm Emmanuel. <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-white">
-            Full-Stack Developer.
-          </span>
-        </h1>
+        I build clean, scalable mobile and web applications.
+      </h1>
 
-        <p className="text-lg md:text-xl max-w-lg text-gray-300">
-          I create clean, fast, and scalable digital products that solve
-          real-world problems. My focus is on writing efficient code and
-          building solutions that actually work.
-        </p>
-
-        {/* The Resume Download Link */}
-        <motion.a
-          href="/Emmanuel_Owusu_Resume.pdf"
-          download="Emmanuel_Owusu_Resume.pdf"
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0px 0px 15px rgba(255,255,255,0.5)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-4 inline-block px-8 py-3 bg-accent text-background font-bold rounded-full transition-colors"
+      <div className="mt-12 grid gap-10 border-t border-line pt-10 md:mt-16 md:grid-cols-12 md:gap-8 lg:pt-12">
+        <div
+          className="reveal md:col-span-7 md:col-start-6 md:row-start-1 lg:col-span-5 lg:col-start-6"
+          style={{ "--delay": "160ms" }}
         >
-          Download Resume
-        </motion.a>
-      </motion.div>
+          <p className="max-w-[34em] text-lg leading-relaxed text-muted md:text-xl">
+            I create clean, fast, and scalable digital products that solve
+            real-world problems. My focus is on writing efficient code and
+            building solutions that actually work.
+          </p>
 
-      {/* Hero Image / Avatar */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="md:w-1/2 mt-12 md:mt-0 flex justify-center"
-      >
-        <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gray-800 border-4 border-white/10 overflow-hidden">
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+            <a href="#projects" className="btn-signal">
+              See my work
+            </a>
+            <a
+              href="/Emmanuel_Owusu_Resume.pdf"
+              download="Emmanuel_Owusu_Resume.pdf"
+              className="text-link"
+            >
+              <FiDownload aria-hidden="true" />
+              Download résumé (PDF)
+            </a>
+          </div>
+
+          <p className="mt-6 text-muted">
+            <FiMail aria-hidden="true" className="mr-2 inline align-[-0.125em]" />
+            <a href={`mailto:${EMAIL}`} className="text-link break-all">
+              {EMAIL}
+            </a>
+          </p>
+        </div>
+
+        <figure
+          className="reveal max-w-[18rem] md:col-span-5 md:row-start-1 md:max-w-none lg:col-span-4"
+          style={{ "--delay": "240ms" }}
+        >
           <img
             src="/emma1.JPG"
-            alt="Emmanuel Owusu"
-            className="w-full h-full object-cover"
+            alt="Portrait of Emmanuel Owusu"
+            width="852"
+            height="806"
+            fetchPriority="high"
+            decoding="async"
+            className="aspect-[4/5] w-full rounded-[3px] bg-surface object-cover object-[50%_30%]"
           />
-        </div>
-      </motion.div>
+        </figure>
+      </div>
     </section>
   );
 }

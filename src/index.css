@@ -2,6 +2,253 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* Ink & Signal — contrast ratios are WCAG values against --color-ink */
+:root {
+  --color-ink: #0e1726;
+  --color-surface: #16233a;
+  --color-line: #2a3a55;
+  --color-control: #617596; /* 3.8:1 — input boundaries */
+  --color-paper: #eae6dd; /* 14.4:1 */
+  --color-muted: #93a3b5; /* 7.0:1, 6.1:1 on surface */
+  --color-signal: #e8a33d; /* 8.3:1; ink on signal 8.3:1 */
+  --color-signal-hover: #f2bb62; /* ink on hover 10.3:1 */
+  --color-signal-pressed: #d9932b; /* ink on pressed 7.0:1 */
+
+  --nav-height: 4.5rem;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: calc(var(--nav-height) + 1.5rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-ink font-body text-paper antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-16;
+  }
+
+  .section-title {
+    @apply font-heading font-extrabold text-paper;
+    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Primary action: amber fill, ink text */
+  .btn-signal {
+    @apply inline-flex items-center justify-center gap-2 rounded-[3px] bg-signal px-6 py-3 font-medium text-ink transition-[background-color,transform] duration-150;
+  }
+  .btn-signal:hover {
+    @apply bg-signal-hover;
+  }
+  .btn-signal:active {
+    @apply translate-y-px bg-signal-pressed;
+  }
+  .btn-signal:disabled:active {
+    @apply translate-y-0;
+  }
+  .btn-signal:disabled {
+    @apply cursor-progress opacity-70;
+  }
+
+  /* Inline text link: underlined, turns amber on hover */
+  .text-link {
+    @apply inline-flex items-center gap-2 font-medium text-paper underline decoration-line decoration-2 underline-offset-[6px] transition-colors duration-150;
+  }
+  .text-link:hover {
+    @apply text-signal decoration-signal;
+  }
+  .text-link:active {
+    @apply text-signal-pressed decoration-signal-pressed;
+  }
+
+  .field {
+    @apply w-full rounded-[3px] border border-control bg-surface px-4 py-3 text-paper placeholder:text-muted transition-colors duration-150;
+  }
+  .field:hover {
+    @apply border-muted;
+  }
+  .field:focus-visible {
+    @apply border-signal;
+    outline-offset: 2px;
+  }
+}
+
+/* The signal line: one amber rail on the left edge that tracks reading progress */
+.signal-line {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  /* Sits 2rem left of the content column (.page uses lg:px-16 inside 75rem) */
+  left: max(2rem, calc((100vw - 75rem) / 2 + 2rem));
+  width: 1px;
+  background: var(--color-line);
+  z-index: 40;
+  pointer-events: none;
+}
+
+.signal-line__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-signal);
+  transform-origin: top;
+  transform: scaleY(var(--progress, 0));
+}
+
+.signal-line__marker {
+  position: absolute;
+  left: -3px;
+  width: 7px;
+  height: 7px;
+  background: var(--color-signal);
+  top: calc(var(--progress, 0) * 100% - 3px);
+}
+
+.signal-line__tick {
+  position: absolute;
+  left: -4px;
+  width: 9px;
+  height: 1px;
+  background: var(--color-line);
+  transition: background-color 200ms ease;
+}
+
+.signal-line__tick.is-passed {
+  background: var(--color-signal);
+}
+
+/* Shared active-section underline in the navigation (positioned by Navbar.jsx) */
+.nav-indicator {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: var(--color-signal);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    width 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 200ms ease;
+}
+
+/* Single orchestrated page-load reveal for the hero */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: rise 550ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* One-time scroll reveals (armed by src/reveal.js; content is visible without it) */
+.reveal-armed [data-reveal-item] {
+  transition:
+    opacity var(--reveal-duration, 350ms) ease-out,
+    transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(
+    var(--reveal-base, 0ms) + var(--i, 0) * var(--reveal-step, 50ms)
+  );
+}
+
+.reveal-armed.is-pending [data-reveal-item] {
+  opacity: 0;
+}
+
+/* Project rows: the top rule draws left to right in amber, cools to the
+   border colour, and the image, text and details follow it in */
+[data-reveal="row"].reveal-armed {
+  --reveal-base: 250ms;
+  --reveal-step: 60ms;
+  --reveal-duration: 450ms;
+  position: relative;
+  border-top-color: transparent;
+}
+
+[data-reveal="row"].reveal-armed::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -1px;
+  height: 1px;
+  background: var(--color-line);
+  transform-origin: left;
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 700ms ease 700ms;
+}
+
+[data-reveal="row"].reveal-armed.is-pending::before {
+  transform: scaleX(0);
+  background: var(--color-signal);
+}
+
+/* The 8px rise is kept for tablet and desktop; phones get opacity only */
+@media (min-width: 768px) {
+  [data-reveal="row"].reveal-armed.is-pending [data-reveal-item] {
+    transform: translateY(8px);
+  }
+}
+
+@media print {
+  .reveal-armed.is-pending [data-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+
+  .reveal-armed.is-pending [data-reveal-item] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-reveal="row"].reveal-armed.is-pending::before {
+    transform: none;
+  }
+
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+  }
 }
